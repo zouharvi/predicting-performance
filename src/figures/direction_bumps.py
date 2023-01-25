@@ -7,6 +7,12 @@ import argparse
 import fig_utils
 import glob
 import collections
+import scipy.stats as st
+
+# returns confidence interval of mean
+def confidence_interval(data, conf=0.95):
+  mean, sem, m = np.mean(data), st.sem(data), st.t.ppf((1+conf)/2., len(data)-1)
+  return mean - m*sem, mean + m*sem
 
 # rsync -azP euler:/cluster/work/sachan/vilem/predicting-performance/logs/train_mt_s*.log logs/
 
@@ -42,16 +48,28 @@ BALANCES = [
 fig = plt.figure(figsize=(4, 3))
 ax = plt.gca()
 
-for key in ["en-de", "de-en"]:
+for key_i, key in enumerate(["en-de", "de-en"]):
     bleus = BLEUS[key]
     # average across seeds
-    bleus = [(ratio, np.average(l)) for ratio, l in bleus]
+    bleus = [
+        (ratio, np.average(l), confidence_interval(l, conf=0.95))
+        for ratio, l in bleus
+    ]
     ratios = [x[0] for x in bleus]
+    bleu_cis = [x[2] for x in bleus]
     bleus = [x[1] for x in bleus]
+
     ax.plot(
         ratios, bleus,
         marker=fig_utils.MARKERS[0],
         label=key.upper().replace("-", r"$\rightarrow$")
+    )
+    ax.fill_between(
+        ratios,
+        [x[0] for x in bleu_cis],
+        [x[1] for x in bleu_cis],
+        color="gray",
+        alpha=0.2,
     )
 
     # ax.text(
