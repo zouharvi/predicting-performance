@@ -22,10 +22,10 @@ for BALANCE_NAME in "300k-300k" "500k-100k" "100k-500k" "590k-010k" "010k-590k";
         LANG2="${LANGS[1]}"
 
         ORIG_DIR="data/tokenizer_bpe/${BALANCE_NAME}";
-        TEXT_DIR="data_bin/${LANG1}-${LANG2}/${MODEL}/${BALANCE_NAME}";
+        TEXT_DIR="data_bin/tokenizer_bpe/${LANG1}-${LANG2}/${BALANCE_NAME}";
         mkdir -p ${TEXT_DIR};
 
-        sbatch --time=0-1 --ntasks=10 --mem-per-cpu=2G \
+        sbatch --time=0-1 --ntasks=30 --mem-per-cpu=1G \
             --job-name="preprocess_${BALANCE_NAME}.${LANG1}-${LANG2}" \
             --output="logs/preprocess_${BALANCE_NAME}.${LANG1}-${LANG2}.log" \
             --wrap="fairseq-preprocess --source-lang $LANG1 --target-lang $LANG2 \
@@ -34,7 +34,7 @@ for BALANCE_NAME in "300k-300k" "500k-100k" "100k-500k" "590k-010k" "010k-590k";
                 --bpe fastbpe \
                 --joined-dictionary \
                 --tokenizer moses \
-                --workers 10 \
+                --workers 30 \
             ";
     done;
 done
