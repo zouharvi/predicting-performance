@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 for SEED in "0" "1" "2" "3" "4" "5" "6"; do
-for BALANCE_NAME in "300k-300k" "500k-100k" "100k-500k" "590k-010k" "010k-590k"; do
+for BALANCE_NAME in "300k-300k" "500k-100k" "100k-500k" "600k-000k" "000k-600k"; do
     for LANGS_NAME in "de-en" "en-de"; do
         IFS='-' read -r -a LANGS <<< "${LANGS_NAME}";
         LANG1="${LANGS[0]}"

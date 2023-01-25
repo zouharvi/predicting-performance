@@ -5,7 +5,7 @@ function balance_to_num {
     echo $T
 }
 
-for BALANCE_NAME in "300k-300k" "500k-100k" "100k-500k" "590k-010k" "010k-590k"; do
+for BALANCE_NAME in "300k-300k" "500k-100k" "100k-500k" "600k-000k" "000k-600k"; do
     BALANCE=$(balance_to_num $BALANCE_NAME)
     IFS='-' read -r -a BALANCE <<< "${BALANCE}";
     BALANCE1="${BALANCE[0]}"
