@@ -87,4 +87,5 @@ ax.set_xticks(
 )
 plt.legend()
 plt.tight_layout(pad=0.3)
+plt.savefig("computed/figures/direction_bumps.pdf")
 plt.show()
